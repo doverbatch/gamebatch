@@ -5,30 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Game Portal</title>
 <style>
-body { font-family: sans-serif; background: #111; color: #fff; text-align: center; }
-h1 { margin-top: 50px; }
-.game-list { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
-.game-item { margin: 10px; text-align: center; }
-.game-item img { width: 200px; height: 150px; display: block; margin-bottom: 5px; border: 2px solid #fff; }
-a { color: #fff; text-decoration: none; }
-a:hover { color: #0f0; }
+body { 
+    font-family: sans-serif; 
+    background: #111; 
+    color: #fff; 
+    text-align: center; 
+    margin: 0; 
+    padding: 0;
+}
+h1 { 
+    margin-top: 50px; 
+}
+.game-list { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    margin-top: 30px; 
+}
+.game-item { 
+    margin: 10px; 
+    text-align: center; 
+}
+.game-item img { 
+    width: 200px; 
+    height: 150px; 
+    display: block; 
+    margin-bottom: 5px; 
+    border: 2px solid #fff; 
+    object-fit: cover;
+}
+a { 
+    color: #fff; 
+    text-decoration: none; 
+}
+a:hover { 
+    color: #0f0; 
+}
 </style>
 </head>
 <body>
 <h1>My Game Portal</h1>
 <div class="game-list">
+    <!-- Tetris Game -->
     <div class="game-item">
-        <a href="games/Game1/index.html">
-            <img src="games/Game1/assets/thumb.png" alt="Game 1">
-            Game 1
+        <a href="games/Tetris/index.html">
+            <img src="games/Tetris/assets/thumb.png" alt="Tetris">
+            Tetris
         </a>
     </div>
+
+    <!-- Add more games below -->
+    <!-- Example:
     <div class="game-item">
-        <a href="games/Game2/index.html">
-            <img src="games/Game2/assets/thumb.png" alt="Game 2">
-            Game 2
+        <a href="games/AnotherGame/index.html">
+            <img src="games/AnotherGame/assets/thumb.png" alt="Another Game">
+            Another Game
         </a>
     </div>
+    -->
+
 </div>
 </body>
 </html>
