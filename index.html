@@ -45,25 +45,33 @@ a:hover {
 </head>
 <body>
 <h1>My Game Portal</h1>
-<div class="game-list">
-    <!-- BlockDrop Game -->
-    <div class="game-item">
-        <a href="games/BlockDrop/index.html">
-            <img src="games/BlockDrop/assets/thumb.png" alt="BlockDrop">
-            BlockDrop
-        </a>
-    </div>
-
-    <!-- Add more games below -->
-    <!-- Example:
-    <div class="game-item">
-        <a href="games/AnotherGame/index.html">
-            <img src="games/AnotherGame/assets/thumb.png" alt="Another Game">
-            Another Game
-        </a>
-    </div>
-    -->
-
+<div class="game-list" id="gameList">
+    <!-- Games will be populated automatically -->
 </div>
+
+<script>
+// List of game folders
+const games = ["BlockDrop"]; // Add more folder names here if you want manually; auto-detect is tricky without a server
+
+const gameListDiv = document.getElementById("gameList");
+
+games.forEach(game => {
+    const gameItem = document.createElement("div");
+    gameItem.className = "game-item";
+
+    const link = document.createElement("a");
+    link.href = `games/${game}/index.html`;
+
+    const img = document.createElement("img");
+    img.src = `games/${game}/assets/thumb.png`;
+    img.alt = game;
+
+    link.appendChild(img);
+    link.appendChild(document.createTextNode(game));
+    gameItem.appendChild(link);
+
+    gameListDiv.appendChild(gameItem);
+});
+</script>
 </body>
 </html>
