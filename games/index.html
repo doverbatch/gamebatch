@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Block Drop</title>
-<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-<script defer src="https://pyscript.net/latest/pyscript.js"></script>
+<title>Tetris</title>
+<style>
+body { background: #111; color: #fff; text-align: center; font-family: sans-serif; }
+canvas { background: #000; display: block; margin: 20px auto; border: 2px solid #fff; }
+</style>
 </head>
 <body>
-<h1>Block Drop</h1>
-
-<!-- Python game code -->
-<py-script src="main.py"></py-script>
-
+<h1>Tetris</h1>
+<canvas id="tetris" width="300" height="600"></canvas>
+<script src="tetris.js"></script>
 </body>
 </html>
-
