@@ -5,73 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Game Portal</title>
 <style>
-body { 
-    font-family: sans-serif; 
-    background: #111; 
-    color: #fff; 
-    text-align: center; 
-    margin: 0; 
-    padding: 0;
-}
-h1 { 
-    margin-top: 50px; 
-}
-.game-list { 
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center; 
-    margin-top: 30px; 
-}
-.game-item { 
-    margin: 10px; 
-    text-align: center; 
-}
-.game-item img { 
-    width: 200px; 
-    height: 150px; 
-    display: block; 
-    margin-bottom: 5px; 
-    border: 2px solid #fff; 
-    object-fit: cover;
-}
-a { 
-    color: #fff; 
-    text-decoration: none; 
-}
-a:hover { 
-    color: #0f0; 
-}
+body { font-family: sans-serif; background: #111; color: #fff; text-align: center; margin:0; padding:0; }
+h1 { margin-top:50px; }
+.game-list { display:flex; flex-wrap:wrap; justify-content:center; margin-top:30px; }
+.game-item { margin:10px; text-align:center; }
+.game-item img { width:200px; height:150px; display:block; margin-bottom:5px; border:2px solid #fff; object-fit:cover; }
+a { color:#fff; text-decoration:none; }
+a:hover { color:#0f0; }
 </style>
 </head>
 <body>
 <h1>My Game Portal</h1>
-<div class="game-list" id="gameList">
-    <!-- Games will be populated automatically -->
-</div>
+<div class="game-list" id="gameList"></div>
 
 <script>
-// List of game folders
-const games = ["BlockDrop"]; // Add more folder names here if you want manually; auto-detect is tricky without a server
-
-const gameListDiv = document.getElementById("gameList");
-
-games.forEach(game => {
-    const gameItem = document.createElement("div");
-    gameItem.className = "game-item";
-
-    const link = document.createElement("a");
-    link.href = `games/${game}/index.html`;
-
-    const img = document.createElement("img");
-    img.src = `games/${game}/assets/thumb.png`;
-    img.alt = game;
-
-    link.appendChild(img);
-    link.appendChild(document.createTextNode(game));
-    gameItem.appendChild(link);
-
-    gameListDiv.appendChild(gameItem);
-});
+// Load games.json
+fetch('games.json')
+  .then(response => response.json())
+  .then(games => {
+    const gameListDiv = document.getElementById('gameList');
+    games.forEach(game => {
+      const gameItem = document.createElement('div');
+      gameItem.className = 'game-item';
+      const link = document.createElement('a');
+      link.href = `games/${game.folder}/index.html`;
+      const img = document.createElement('img');
+      img.src = `games/${game.folder}/${game.thumb}`;
+      img.alt = game.name;
+      link.appendChild(img);
+      link.appendChild(document.createTextNode(game.name));
+      gameItem.appendChild(link);
+      gameListDiv.appendChild(gameItem);
+    });
+  })
+  .catch(err => console.error('Failed to load games.json:', err));
 </script>
 </body>
 </html>
