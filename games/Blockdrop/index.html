@@ -2,62 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlockDrop</title>
   <style>
     body {
       margin: 0;
       background: #111;
       color: #fff;
+      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
+      justify-content: center;
+      height: 100vh;
     }
-
-    header {
-      width: 100%;
-      padding: 1rem;
-      background: #222;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
     canvas {
+      border: 2px solid #0f0;
       background: #000;
-      margin-top: 20px;
-      border: 2px solid #444;
-    }
-
-    a.back-link {
-      margin-top: 20px;
-      color: #0af;
-      text-decoration: none;
-    }
-
-    a.back-link:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>BlockDrop</h1>
-  </header>
-
-  <!-- Game canvas -->
+  <h1>BlockDrop</h1>
   <canvas id="gameCanvas" width="300" height="600"></canvas>
 
-  <!-- Back to portal -->
-  <a class="back-link" href="../../index.html">← Back to Portal</a>
-
-  <!-- Game logic -->
   <script src="blockdrop.js"></script>
 </body>
 </html>
