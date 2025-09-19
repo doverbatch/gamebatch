@@ -47,29 +47,13 @@
 </head>
 <body>
   <h1>My Game Portal</h1>
-  <div id="games" class="games-grid"></div>
-
-  <script>
-    // Load the game list from games.json
-    fetch('games.json')
-      .then(response => response.json())
-      .then(games => {
-        const container = document.getElementById('games');
-        games.forEach(game => {
-          const div = document.createElement('div');
-          div.className = 'game-item';
-          div.innerHTML = `
-            <a href="games/${game.folder}/index.html">
-              <img src="games/${game.folder}/${game.thumb}" alt="${game.name}">
-              ${game.name}
-            </a>
-          `;
-          container.appendChild(div);
-        });
-      })
-      .catch(err => {
-        console.error("Error loading games.json:", err);
-      });
-  </script>
+  <div class="games-grid">
+    <div class="game-item">
+      <a href="games/BlockDrop/index.html">
+        <img src="games/BlockDrop/assets/thumb.png" alt="BlockDrop">
+        BlockDrop
+      </a>
+    </div>
+  </div>
 </body>
 </html>
