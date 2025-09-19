@@ -1,25 +1,21 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Tetris grid
 const COLS = 10;
 const ROWS = 20;
-const BLOCK_SIZE = 30;
-canvas.width = COLS * BLOCK_SIZE;
-canvas.height = ROWS * BLOCK_SIZE;
+const BLOCK = 30;
 
-const COLORS = [
-  null,
-  "#FF0D72", "#0DC2FF", "#0DFF72", "#F538FF", "#FF8E0D", "#FFE138", "#3877FF"
-];
+canvas.width = COLS * BLOCK;
+canvas.height = ROWS * BLOCK;
 
+const COLORS = [null,"#FF0D72","#0DC2FF","#0DFF72","#F538FF","#FF8E0D","#FFE138","#3877FF"];
 const SHAPES = [
   [],
   [[1,1,1],[0,1,0]], [[1,1,1,1]], [[0,1,1],[1,1,0]], [[1,1,0],[0,1,1]],
   [[1,1,1],[1,0,0]], [[1,1],[1,1]], [[1,1,1],[0,0,1]]
 ];
 
-let grid = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+let grid = Array.from({length: ROWS}, () => Array(COLS).fill(0));
 let piece = createPiece();
 let dropCounter = 0;
 let dropInterval = 1000;
@@ -27,21 +23,19 @@ let lastTime = 0;
 let gameOver = false;
 let score = 0;
 let level = 1;
-let particles = [];
 
-// play background music
-document.getElementById("bgm").play().catch(()=>{}); 
+document.getElementById("bgm").play().catch(()=>{});
 
-function createPiece(){
-  const type = (Math.random()*(SHAPES.length-1)+1)|0;
-  return {shape: SHAPES[type].map(r=>[...r]), pos:{x:(COLS/2|0)-(SHAPES[type][0].length/2|0), y:0}, color:type, angle:0};
+function createPiece() {
+  const type = (Math.random() * (SHAPES.length-1) + 1)|0;
+  return {shape: SHAPES[type].map(r=>[...r]), pos:{x:Math.floor(COLS/2- SHAPES[type][0].length/2), y:0}, color:type};
 }
 
-function collide(grid,p){
+function collide(grid,p) {
   for(let y=0;y<p.shape.length;y++){
     for(let x=0;x<p.shape[y].length;x++){
       if(p.shape[y][x] &&
-        ((grid[y+p.pos.y] && grid[y+p.pos.y][x+p.pos.x]) !== 0 || x+p.pos.x<0 || x+p.pos.x>=COLS || y+p.pos.y>=ROWS)){
+        ((grid[y+p.pos.y] && grid[y+p.pos.y][x+p.pos.x]) !==0 || x+p.pos.x<0 || x+p.pos.x>=COLS || y+p.pos.y>=ROWS)) {
         return true;
       }
     }
@@ -50,17 +44,15 @@ function collide(grid,p){
 }
 
 function merge(grid,p){
-  p.shape.forEach((row,y)=>row.forEach((val,x)=>{
-    if(val!==0) grid[y+p.pos.y][x+p.pos.x]=p.color;
-  }));
+  p.shape.forEach((row,y)=>row.forEach((v,x)=>{ if(v!==0) grid[y+p.pos.y][x+p.pos.x]=p.color; }));
 }
 
 function playerDrop(){
-  piece.pos.y += 0.2;
+  piece.pos.y += 1;
   if(collide(grid,piece)){
-    piece.pos.y = Math.floor(piece.pos.y);
+    piece.pos.y--;
     merge(grid,piece);
-    document.getElementById("drop").play();
+    document.getElementById("drop").play().catch(()=>{});
     sweepRows();
     piece = createPiece();
     if(collide(grid,piece)) gameOver=true;
@@ -71,8 +63,7 @@ function playerDrop(){
 function sweepRows(){
   for(let y=ROWS-1;y>=0;y--){
     if(grid[y].every(v=>v!==0)){
-      spawnParticles(y);
-      document.getElementById("lineclear").play();
+      document.getElementById("lineclear").play().catch(()=>{});
       grid.splice(y,1);
       grid.unshift(Array(COLS).fill(0));
       score += 10*level;
@@ -82,58 +73,23 @@ function sweepRows(){
   }
 }
 
-function spawnParticles(row){
-  for(let x=0;x<COLS;x++){
-    if(grid[row][x]!==0){
-      particles.push({
-        x:x*BLOCK_SIZE+BLOCK_SIZE/2,
-        y:row*BLOCK_SIZE+BLOCK_SIZE/2,
-        dx:(Math.random()-0.5)*2,
-        dy:-Math.random()*2-1,
-        life:20,
-        color:COLORS[grid[row][x]]
-      });
-    }
-  }
-}
-
 function draw(){
   ctx.fillStyle="#000";
   ctx.fillRect(0,0,canvas.width,canvas.height);
   drawMatrix(grid,{x:0,y:0});
-  drawGhost();
   drawMatrix(piece.shape,piece.pos);
-  drawParticles();
   drawScore();
 }
 
 function drawMatrix(matrix,offset){
-  matrix.forEach((row,y)=>row.forEach((val,x)=>{
-    if(val!==0){
-      ctx.fillStyle=COLORS[val];
-      ctx.fillRect((x+offset.x)*BLOCK_SIZE,(y+offset.y)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
+  matrix.forEach((row,y)=>row.forEach((v,x)=>{
+    if(v!==0){
+      ctx.fillStyle=COLORS[v];
+      ctx.fillRect((x+offset.x)*BLOCK,(y+offset.y)*BLOCK,BLOCK,BLOCK);
       ctx.strokeStyle="#111";
-      ctx.strokeRect((x+offset.x)*BLOCK_SIZE,(y+offset.y)*BLOCK_SIZE,BLOCK_SIZE,BLOCK_SIZE);
+      ctx.strokeRect((x+offset.x)*BLOCK,(y+offset.y)*BLOCK,BLOCK,BLOCK);
     }
   }));
-}
-
-function drawGhost(){
-  let ghost={...piece,pos:{x:piece.pos.x,y:Math.floor(piece.pos.y)}};
-  while(!collide(grid,ghost)) ghost.pos.y+=1;
-  ghost.pos.y--;
-  ctx.globalAlpha=0.3;
-  drawMatrix(ghost.shape,ghost.pos);
-  ctx.globalAlpha=1;
-}
-
-function drawParticles(){
-  particles.forEach(p=>{
-    ctx.fillStyle=p.color;
-    ctx.fillRect(p.x-2,p.y-2,4,4);
-    p.x+=p.dx; p.y+=p.dy; p.life--;
-  });
-  particles = particles.filter(p=>p.life>0);
 }
 
 function drawScore(){
@@ -146,16 +102,14 @@ function drawScore(){
 function rotateMatrix(matrix){
   const N = matrix.length;
   const result = Array.from({length:N},()=>Array(N).fill(0));
-  for(let y=0;y<N;y++){
-    for(let x=0;x<N;x++) result[x][N-1-y]=matrix[y][x];
-  }
+  for(let y=0;y<N;y++) for(let x=0;x<N;x++) result[x][N-1-y]=matrix[y][x];
   return result;
 }
 
 function rotatePiece(){
   const old = piece.shape.map(r=>[...r]);
-  piece.shape=rotateMatrix(piece.shape);
-  if(piece.pos.x+piece.shape[0].length>COLS) piece.pos.x=COLS-piece.shape[0].length;
+  piece.shape = rotateMatrix(piece.shape);
+  if(piece.pos.x + piece.shape[0].length>COLS) piece.pos.x=COLS-piece.shape[0].length;
   if(piece.pos.x<0) piece.pos.x=0;
   if(collide(grid,piece)) piece.shape=old;
 }
@@ -167,16 +121,16 @@ function update(time=0){
     ctx.fillText("GAME OVER",canvas.width/2-80,canvas.height/2);
     return;
   }
-  const delta=time-lastTime;
-  lastTime=time;
-  dropCounter+=delta;
+  const delta = time - lastTime;
+  lastTime = time;
+  dropCounter += delta;
   if(dropCounter>dropInterval/level) playerDrop();
   draw();
   requestAnimationFrame(update);
 }
 
-// prevent scrolling inside iframe
-window.addEventListener("keydown", e=>{
+// prevent scrolling
+window.addEventListener("keydown",e=>{
   if(["ArrowLeft","ArrowRight","ArrowDown","ArrowUp"].includes(e.key)) e.preventDefault();
   if(gameOver) return;
   if(e.key==="ArrowLeft"){ piece.pos.x--; if(collide(grid,piece)) piece.pos.x++; }
