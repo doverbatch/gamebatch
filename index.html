@@ -1,44 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Game Portal</title>
-<style>
-body { font-family: sans-serif; background: #111; color: #fff; text-align: center; margin:0; padding:0; }
-h1 { margin-top:50px; }
-.game-list { display:flex; flex-wrap:wrap; justify-content:center; margin-top:30px; }
-.game-item { margin:10px; text-align:center; }
-.game-item img { width:200px; height:150px; display:block; margin-bottom:5px; border:2px solid #fff; object-fit:cover; }
-a { color:#fff; text-decoration:none; }
-a:hover { color:#0f0; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Game Portal</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .game-item {
+      background: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+    .game-item:hover {
+      transform: scale(1.05);
+    }
+    .game-item img {
+      width: 100%;
+      display: block;
+    }
+    .game-item a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-<h1>My Game Portal</h1>
-<div class="game-list" id="gameList"></div>
+  <h1>My Game Portal</h1>
+  <div id="games" class="games-grid"></div>
 
-<script>
-// Load games.json
-fetch('games.json')
-  .then(response => response.json())
-  .then(games => {
-    const gameListDiv = document.getElementById('gameList');
-    games.forEach(game => {
-      const gameItem = document.createElement('div');
-      gameItem.className = 'game-item';
-      const link = document.createElement('a');
-      link.href = `games/${game.folder}/index.html`;
-      const img = document.createElement('img');
-      img.src = `games/${game.folder}/${game.thumb}`;
-      img.alt = game.name;
-      link.appendChild(img);
-      link.appendChild(document.createTextNode(game.name));
-      gameItem.appendChild(link);
-      gameListDiv.appendChild(gameItem);
-    });
-  })
-  .catch(err => console.error('Failed to load games.json:', err));
-</script>
+  <script>
+    // Load the game list from games.json
+    fetch('games.json')
+      .then(response => response.json())
+      .then(games => {
+        const container = document.getElementById('games');
+        games.forEach(game => {
+          const div = document.createElement('div');
+          div.className = 'game-item';
+          div.innerHTML = `
+            <a href="games/${game.folder}/index.html">
+              <img src="games/${game.folder}/${game.thumb}" alt="${game.name}">
+              ${game.name}
+            </a>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        console.error("Error loading games.json:", err);
+      });
+  </script>
 </body>
 </html>
