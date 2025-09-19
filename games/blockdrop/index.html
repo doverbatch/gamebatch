@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BlockDrop</title>
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-h1 {
-    margin-top: 20px;
-}
-canvas {
-    background: #000;
-    display: block;
-    margin: 20px auto;
-    border: 2px solid #fff;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlockDrop</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin: 20px 0;
+    }
+    canvas {
+      background: #000;
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #fff;
+    }
+  </style>
 </head>
 <body>
-<h1>BlockDrop</h1>
+  <h1>BlockDrop</h1>
+  <canvas id="gameCanvas" width="300" height="600"></canvas>
 
-<!-- Game canvas -->
-<canvas id="gameCanvas" width="300" height="600"></canvas>
-
-<!-- Script for the game -->
-<script src="blockdrop.js"></script>
-
+  <!-- Your game code -->
+  <script src="blockdrop.js"></script>
 </body>
 </html>
