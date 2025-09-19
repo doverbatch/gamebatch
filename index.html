@@ -2,78 +2,96 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Game Portal</title>
+  <title>GameBatch</title>
   <style>
-    body {
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      background: #111; 
+      color: #fff; 
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: white;
-      text-align: center;
+      padding: 0;
     }
-
     header {
       background: #222;
-      padding: 1rem;
+      padding: 20px;
     }
-
-    header h1 {
+    h1 {
       margin: 0;
       font-size: 2rem;
+      color: #0f0;
     }
-
-    .games {
+    #games {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 20px;
-      gap: 20px;
     }
-
-    .game {
-      background: #1e1e1e;
-      border-radius: 10px;
-      padding: 10px;
+    .game-card {
       width: 200px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      margin: 15px;
+      padding: 15px;
+      background: #222;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
     }
-
-    .game img {
+    .game-card:hover {
+      transform: scale(1.05);
+      background: #333;
+    }
+    .game-card img {
       width: 100%;
-      height: 150px;
+      height: 120px;
       object-fit: cover;
       border-radius: 8px;
+      margin-bottom: 10px;
     }
-
-    .game h3 {
-      margin: 10px 0 0;
+    .game-card h2 {
+      font-size: 1.1rem;
+      margin: 0;
     }
-
-    .game a {
-      display: block;
-      color: #0af;
-      text-decoration: none;
-      margin-top: 5px;
-    }
-
-    .game a:hover {
-      text-decoration: underline;
+    iframe {
+      width: 90%;
+      max-width: 900px;
+      height: 600px;
+      border: none;
+      margin: 30px auto;
+      display: none;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>My Game Portal</h1>
+    <h1>🎮 GameBatch</h1>
+    <p>Select a game to play below</p>
   </header>
 
-  <div class="games">
-    <!-- BlockDrop Card -->
-    <div class="game">
-      <img src="games/BlockDrop/assets/thumb.png" alt="BlockDrop Thumbnail">
-      <h3>BlockDrop</h3>
-      <a href="games/BlockDrop/index.html">Play Game</a>
+  <div id="games">
+    <!-- Example: BlockDrop -->
+    <div class="game-card" onclick="loadGame('games/blockdrop/index.html')">
+      <img src="games/blockdrop/thumb.png" alt="BlockDrop thumbnail">
+      <h2>BlockDrop</h2>
     </div>
+
+    <!-- Add more games here by copy-paste -->
+    <!--
+    <div class="game-card" onclick="loadGame('games/anothergame/index.html')">
+      <img src="games/anothergame/thumb.png" alt="AnotherGame thumbnail">
+      <h2>Another Game</h2>
+    </div>
+    -->
   </div>
+
+  <iframe id="gameFrame"></iframe>
+
+  <script>
+    function loadGame(url) {
+      const frame = document.getElementById("gameFrame");
+      frame.src = url;
+      frame.style.display = "block";
+      window.scrollTo({ top: frame.offsetTop, behavior: "smooth" });
+    }
+  </script>
 </body>
 </html>
