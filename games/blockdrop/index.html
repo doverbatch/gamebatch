@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BlockDrop</title>
-  <style>
-    body { margin: 0; background: #000; overflow: hidden; display: flex; justify-content:center; align-items:center; height:100vh; }
-    canvas { background: #111; display:block; }
-  </style>
+<meta charset="UTF-8">
+<title>BlockDrop</title>
+<style>
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+    height: 100vh;
+    overflow: hidden;
+  }
+  canvas {
+    background: #000;
+    display: block;
+    border: 3px solid #333;
+  }
+</style>
 </head>
 <body>
   <canvas id="gameCanvas"></canvas>
