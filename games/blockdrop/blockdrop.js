@@ -28,11 +28,25 @@ let lastTime = 0;
 let gameOver = false;
 let score = 0;
 let level = 1;
-
 let started=false;
+
+// audio
+const audioElements = {
+  bgm: document.getElementById("bgm"),
+  drop: document.getElementById("drop"),
+  lineclear: document.getElementById("lineclear")
+};
+
+// helper to play safely
+function safePlay(audio){
+  if(audio && audio.src){
+    audio.play().catch(()=>{});
+  }
+}
+
 function startGame(){
   if(!started){
-    document.getElementById("bgm").play();
+    safePlay(audioElements.bgm);
     started=true;
   }
 }
@@ -73,7 +87,7 @@ function rotatePiece(){
 function sweep(){
   for(let y=ROWS-1;y>=0;y--){
     if(grid[y].every(v=>v!==0)){
-      document.getElementById("lineclear").play();
+      safePlay(audioElements.lineclear);
       grid.splice(y,1);
       grid.unshift(Array(COLS).fill(0));
       score += 10*level;
@@ -88,7 +102,7 @@ function drop(){
   if(collide(grid,piece)){
     piece.pos.y--;
     merge(grid,piece);
-    document.getElementById("drop").play();
+    safePlay(audioElements.drop);
     sweep();
     piece = createPiece();
     if(collide(grid,piece)) gameOver=true;
@@ -131,6 +145,7 @@ function update(time=0){
   requestAnimationFrame(update);
 }
 
+// prevent scrolling
 window.addEventListener("keydown",e=>{
   startGame();
   if(["ArrowLeft","ArrowRight","ArrowDown","ArrowUp"].includes(e.key)) e.preventDefault();
