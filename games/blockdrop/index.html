@@ -5,28 +5,26 @@
 <title>BlockDrop</title>
 <style>
   body {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #111;
-    height: 100vh;
-    overflow: hidden;
+    margin:0;
+    background:#111;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+    color:#fff;
+    font-family: Arial, sans-serif;
   }
-  canvas {
-    background: #000;
-    display: block;
-    border: 3px solid #333;
-  }
+  canvas { background:#000; display:block; }
 </style>
 </head>
 <body>
-  <canvas id="gameCanvas"></canvas>
+<canvas id="gameCanvas"></canvas>
 
-  <audio id="bgm" src="audio/music.mp3" loop></audio>
-  <audio id="drop" src="audio/drop.wav"></audio>
-  <audio id="lineclear" src="audio/lineclear.wav"></audio>
+<audio id="bgm" src="audio/music.mp3" loop></audio>
+<audio id="drop" src="audio/drop.wav"></audio>
+<audio id="lineclear" src="audio/lineclear.wav"></audio>
 
-  <script src="blockdrop.js"></script>
+<script src="blockdrop.js"></script>
 </body>
 </html>
